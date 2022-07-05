@@ -557,8 +557,10 @@ cdef class Svg(RenderContext):
         self.vbox_width = parse_width(view_box[2], Window.width)
         self.vbox_height = parse_height(view_box[3], Window.height)
 
-        if self.height:
-            self.transform = Matrix([1, 0, 0, -1, 0, self.height])
+        if self.height and self.width:
+	    a = self.vbox_x / self.width
+	    b = self.vbox_y / self.height
+            self.transform = Matrix([1, 0, 0, -1, a, b])
         else:
             # XXX parse_width/height
             x, y, w, h = [parse_float(x) for x in
